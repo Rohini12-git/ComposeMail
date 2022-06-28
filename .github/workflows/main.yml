@@ -44,8 +44,8 @@ jobs:
        
     -name: Build Solution
       run: |
-         msbuild.exe ComposeMail.sln /p:platform="Any CPU" /p:configuration="Release"
+         msbuild.exe ComposeMail.sln 
 
 -name: Run Tests
-      run: vstest.console.exe  .\tests\ComposeMail.Tests\Release\ComposeMail.Tests.dll
+      run: vstest.console.exe  .\ComposeMail.Tests\Release\ComposeMail.Tests.dll
 
