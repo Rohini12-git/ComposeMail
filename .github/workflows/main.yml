@@ -27,13 +27,25 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      - name: Setup MSBuild.exe
+ 
+        uses: warrenbuckley/Setup-MSBuild@v1
+        
+      - name: Setup NuGet.exe for use with actions
+ 
+        uses: NuGet/setup-nuget@v1.0.6
+        
+      - name: Setup VSTest.console.exe
+ 
+        uses: darenm/Setup-VSTest@v1
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Restore Nuget packages
+        run: restore nuget ComposeMail.sln
+       
+    -name: Build Solution
+      run: |
+         msbuild.exe ComposeMail.sln /p:platform="Any CPU" /p:configuration="Release"
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+-name: Run Tests
+      run: vstest.console.exe  .\tests\ComposeMail.Tests\Release\ComposeMail.Tests.dll
+
